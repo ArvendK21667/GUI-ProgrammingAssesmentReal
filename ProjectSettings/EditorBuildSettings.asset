@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OneButtonGameFinalLevel.unity
     guid: d306cb4b9c02cb0449c635943b9c0067
+  - enabled: 1
+    path: Assets/Scenes/MusicScene.unity
+    guid: 28cf91e2d3ff87047acaa2934e2fec11
   m_configObjects: {}

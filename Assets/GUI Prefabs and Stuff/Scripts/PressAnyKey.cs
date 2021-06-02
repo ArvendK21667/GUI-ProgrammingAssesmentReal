@@ -6,19 +6,12 @@ using UnityEngine.SceneManagement;
 public class PressAnyKey : MonoBehaviour
 {
     public GameObject pressAnyKeyPanel;
-    // Start is called before the first frame update
-    void Start()
-    {
-      
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.anyKey)
+        if(Input.anyKey) //Press Any Key Input
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            pressAnyKeyPanel.SetActive(false);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); //Loads next scene
+            pressAnyKeyPanel.SetActive(false); //turns off panel
         }
     }
 }

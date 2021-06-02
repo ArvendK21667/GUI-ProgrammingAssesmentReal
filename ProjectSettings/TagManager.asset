@@ -9,6 +9,9 @@ TagManager:
   - DEAD
   - WIN
   - Back to Main
+  - WIN1
+  - WIN2
+  - WIN3
   layers:
   - Default
   - TransparentFX

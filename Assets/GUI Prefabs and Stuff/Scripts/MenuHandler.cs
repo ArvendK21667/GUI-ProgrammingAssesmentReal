@@ -61,7 +61,8 @@ public class MenuHandler : MonoBehaviour
     }
     public void LoadScene(int scene)
     {
-        SceneManager.LoadScene(scene);
+        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Quality(int qualityIndex)
@@ -100,25 +101,33 @@ public class MenuHandler : MonoBehaviour
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
     }
 
-    public void Playgame()
+    public void Playgame(int scene)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
 
-    public void RestartLevel(int currentscene)
+    public void RestartLevel(int scene)
     {
-        SceneManager.LoadScene(currentscene);
+        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
     }
 
-    public void NextLevel()
+    public void NextLevel(int scene)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void Mainmenu()
+    public void Mainmenu(int scene)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex - 1);
     }
     public void Quitgame()
     {

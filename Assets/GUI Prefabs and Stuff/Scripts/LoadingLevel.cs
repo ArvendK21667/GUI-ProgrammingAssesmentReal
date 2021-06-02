@@ -33,8 +33,8 @@ public class LoadingLevel : MonoBehaviour
         }
         //yield return new WaitUntil()???
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
-        // load
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex,LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
     public void LoadLevel(int sceneIndex)
     {

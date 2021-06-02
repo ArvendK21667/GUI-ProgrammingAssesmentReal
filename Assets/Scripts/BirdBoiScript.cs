@@ -9,19 +9,20 @@ public class BirdBoiScript : MonoBehaviour
     [SerializeField] private bool isPaused;
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject restartPanel;
-    [SerializeField] private GameObject nextLevelPanel;
+    [SerializeField] private GameObject losegamerestartPanel;
     [SerializeField] private GameObject endGamePanel;
     [SerializeField] private GameObject menuButton;
     [SerializeField] private TMP_Text theEndText;
     public static bool alive;
-    public GameObject birdBoi;
     public float sensitivity;
     public float thrust;
     public GameObject floorTooLow;
     public GameObject skyTooHigh;
     public Rigidbody2D birdRigid;
     public float mass;
-    
+    public ScoreCalculator Score;
+    public MenuHandler2 nextLevel;
+
 
     private void Start()
     {
@@ -38,8 +39,8 @@ public class BirdBoiScript : MonoBehaviour
     {
         if (alive == false)
         {
-            birdBoi.SetActive(false);
-            Destroy(birdBoi);
+            gameObject.SetActive(false);
+            Destroy(gameObject);
             Restart();
         }
 
@@ -59,15 +60,29 @@ public class BirdBoiScript : MonoBehaviour
 
         }
 
-        if (col.gameObject.tag == "WIN")
+        if (col.gameObject.tag == "WIN1")
         {
-            Destroy(birdBoi);
+            Destroy(gameObject);
+            NextLevel();
+            Score.Level1PassBonus();
+        }
+
+        if (col.gameObject.tag == "WIN2")
+        {
+            Destroy(gameObject);
+            NextLevel();
+            Score.Level2PassBonus();
+        }
+
+        if (col.gameObject.tag == "WIN3")
+        {
+            Destroy(gameObject);
             NextLevel();
         }
 
         if (col.gameObject.tag == "Back to Main")
         {
-            Destroy(birdBoi);
+            Destroy(gameObject);
             EndGame();
         }
     }
@@ -78,7 +93,8 @@ public class BirdBoiScript : MonoBehaviour
 
         Time.timeScale = 0;
 
-        nextLevelPanel.SetActive(true);
+        //nextLevel.NextLevel();
+        nextLevel.NextLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void Restart()
@@ -91,12 +107,23 @@ public class BirdBoiScript : MonoBehaviour
 
         menuButton.SetActive(false);
     }
-    public void PauseGame()
+
+    public void LoseGameRestart()
     {
         isPaused = true;
 
         Time.timeScale = 0;
 
+        losegamerestartPanel.SetActive(true);
+
+        menuButton.SetActive(false);
+    }
+    public void PauseGame()
+    {
+        isPaused = true;
+
+        Time.timeScale = 0;
+            
         pausePanel.SetActive(true);
     }
 
