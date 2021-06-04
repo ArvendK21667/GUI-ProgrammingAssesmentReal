@@ -48,13 +48,13 @@ public class ScoreCalculator : MonoBehaviour
         birdBoi.LoseGameRestart();   //when score goes down to 0 you die and have to restart a new game
     }
 
-    public void Level1PassBonus()
+    public void Level1PassBonus() //extra seconds when passing level 1
     {
         endofTime += 15;
     }
 
-    public void Level2PassBonus()
+    public void Level2PassBonus() //extra seconds when passing level 2
     {
-        endofTime += 750;
+        endofTime += 60; 
     }
 }

@@ -62,8 +62,10 @@ public class MenuHandler2 : MonoBehaviour
     }
     public void LoadScene(int currentscene) //To Load a scene for a level in the game
     {
-        SceneManager.LoadScene(currentscene,LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(currentscene);
+
+        //SceneManager.LoadScene(currentscene,LoadSceneMode.Additive);
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex); //Failed Attempt Code!
     }
 
     public void Quality(int qualityIndex) //Quality Control
@@ -98,22 +100,38 @@ public class MenuHandler2 : MonoBehaviour
     }
     public void Playgame(int currentscene) //Play Game 
     {
-        //SceneManager.LoadScene(currentscene); //Loads the to the Firt Level with new score
-        SceneManager.LoadScene(currentscene, LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(currentscene); //Loads the to the Firt Level with new score
+
+        //SceneManager.LoadScene(currentscene, LoadSceneMode.Additive);
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex); //Failed Attempt Code!
+
+
         Time.timeScale = 1;
     }
     public void LoadGame() //Load Game Method for Button
     {
         PlayerData data = SaveSystem.LoadPlayer();
-
         SceneManager.LoadScene(data.level);
     }
     public void RestartLevel(int currentscene) //Panel to restart for when Bird/Player Dies
-    { 
-        //SceneManager.LoadScene(currentscene);
-        SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+    {
+        SceneManager.LoadScene(currentscene);
+        
+        //SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive);
+        //Scene sceneToUnload = default;
+
+        //for (int i = 0; i < SceneManager.sceneCount; i++)
+        //{
+        //    if (SceneManager.GetSceneAt(i).buildIndex != 6) //Failed Attempt Code!
+        //    {
+        //        sceneToUnload = SceneManager.GetSceneAt(i);
+        //        SceneManager.UnloadSceneAsync(sceneToUnload);
+
+        //        break;
+        //    }
+        //}
+
+
         Time.timeScale = 1;
 
         //PlayerPrefs.GetFloat("endofTime");
@@ -121,26 +139,62 @@ public class MenuHandler2 : MonoBehaviour
     }
     public void NextLevel(int currentscene) //When Bird reaches the end and goes to next level
     {
-       // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive); //Loads next scene/level in game
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1); 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); //Loads next scene/level in game
+
+        //SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive); 
+        //SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive); //Failed Attempt Code!
+        //Scene sceneToUnload = default;
+
+        //for (int i = 0; i < SceneManager.sceneCount; i++)
+        //{
+        //    if (SceneManager.GetSceneAt(i).buildIndex != 6)
+        //    {
+        //        sceneToUnload = SceneManager.GetSceneAt(i); //Failed Attempt Code!
+        //        break;
+        //    }
+        //}
+
+        //SceneManager.UnloadSceneAsync(sceneToUnload);
+
         Time.timeScale = 1;
     }
     public void Mainmenu(int currentscene) // Goes back to main menu
     {
-        //SceneManager.LoadScene(currentscene);
-        SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive); 
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(currentscene);
+
+        //SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive); 
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex); //Failed Attempt Code!
         Time.timeScale = 1;
     }
     public void ReturnToMainAfterEndGame(int currentscene) // EngGame method that puts you at the end of game
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 4); //back to scene 1 the main menu
-        SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex - 4);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 4); //back to scene 1 the main menu
+
+        //SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive);
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex - 4); //Failed Attempt Code!
+
         Time.timeScale = 1;
     }
-   
+
+    //public void NextScene(int currentscene) //Failed Attempt Code!
+    //{
+    //    SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive); //Failed Attempt Code!
+    //    Scene sceneToUnload = default;
+
+    //    for (int i = 0; i < SceneManager.sceneCount; i++)
+    //    {
+    //        if (SceneManager.GetSceneAt(i).buildIndex != 6) //Failed Attempt Code!
+    //        {
+    //            sceneToUnload = SceneManager.GetSceneAt(i);
+    //            break;
+    //        }
+    //    }
+
+    //    SceneManager.UnloadSceneAsync(sceneToUnload); //Failed Attempt Code!
+
+    //    Time.timeScale = 1;
+    //}
+
     public void Quitgame() //quit game function
     {
         Debug.Log("quit");

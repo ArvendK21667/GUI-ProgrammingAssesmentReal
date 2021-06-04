@@ -7,16 +7,25 @@ using UnityEngine.Audio;
 using TMPro;
 
 
-public class MenuHandler : MonoBehaviour
+public class MenuHandlerTrial : MonoBehaviour
 {
-    public AudioMixer masterAudio;
+    public static AudioMixer masterAudio;
+    public ScoreCalculator scoreing;
+    [SerializeField] private bool isPaused;
+    [SerializeField] private GameObject pausePanel;
+    public GameObject OptionsMenu;
+    public Resolution[] resolutions;
+    public TMP_Dropdown resolution;
+    public Player player;
 
-    public void ChangeVolume(float volume)
+
+
+    public void ChangeVolume(float volume) //Volume control
     {
         masterAudio.SetFloat("volume", volume);
     }
 
-    public void ToggleMute(bool isMuted)
+    public void ToggleMute(bool isMuted) //mute control
     {
         if (isMuted)
         {
@@ -27,13 +36,7 @@ public class MenuHandler : MonoBehaviour
             masterAudio.SetFloat("isMutedVolume", 0);
         }
     }
-
-    [SerializeField] private bool isPaused;
-    [SerializeField] private GameObject pausePanel;
-    [SerializeField] private GameObject restartPanel;
-    public GameObject OptionsMenu;
-
-    public void PauseGame()
+    public void PauseGame() //Pause Menu
     {
         isPaused = true;
 
@@ -41,17 +44,15 @@ public class MenuHandler : MonoBehaviour
 
         pausePanel.SetActive(true);
     }
-
-    public void OptionMenu()
+    public void OptionMenu() // To open Options Menu
     {
         OptionsMenu.SetActive(true);
     }
-
-    public void OptionMenuClose()
+    public void OptionMenuClose() //To close Options Menu
     {
         OptionsMenu.SetActive(false);
     }
-    public void UnPauseGame()
+    public void UnPauseGame() //To Unpause Game
     {
         isPaused = false;
 
@@ -59,22 +60,19 @@ public class MenuHandler : MonoBehaviour
 
         pausePanel.SetActive(false);
     }
-    public void LoadScene(int scene)
+    public void LoadScene(int currentscene) //To Load a scene for a level in the game
     {
-        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+        SceneManager.LoadScene(currentscene, LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void Quality(int qualityIndex)
+    public void Quality(int qualityIndex) //Quality Control
     {
         QualitySettings.SetQualityLevel(qualityIndex);
     }
-
-    public Resolution[] resolutions;
-    public TMP_Dropdown resolution;
-
     private void Start()
     {
+        // Resolution Control
         resolutions = Screen.resolutions;
         resolution.ClearOptions();
         List<string> options = new List<string>();
@@ -92,49 +90,94 @@ public class MenuHandler : MonoBehaviour
         resolution.AddOptions(options);
         resolution.value = currentResolutionIndex;
         resolution.RefreshShownValue();
-
     }
-
-    public void SetResolution(int resolutionIndex)
+    public void SetResolution(int resolutionIndex) //Resolution Control
     {
         Resolution res = resolutions[resolutionIndex];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
     }
-
-    public void Playgame(int scene)
+    public void Playgame(int currentscene) //Play Game 
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+        //SceneManager.LoadScene(currentscene); //Loads the to the Firt Level with new score
+        SceneManager.LoadScene(currentscene, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+
+
+        Time.timeScale = 1;
+    }
+    public void LoadGame() //Load Game Method for Button
+    {
+        PlayerData data = SaveSystem.LoadPlayer();
+        SceneManager.LoadScene(data.level);
+    }
+    public void RestartLevel(int currentscene) //Panel to restart for when Bird/Player Dies
+    {
+        //SceneManager.LoadScene(currentscene);
+        SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive);
+        //Scene sceneToUnload = default;
+
+        //for (int i = 0; i < SceneManager.sceneCount; i++)
+        //{
+        //    if (SceneManager.GetSceneAt(i).buildIndex != 6)  //Andrew Code
+        //    {
+        //        sceneToUnload = SceneManager.GetSceneAt(i);
+        //        break;
+        //    }
+        //}
+
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
 
-    }
+        Time.timeScale = 1;
 
-    public void RestartLevel(int scene)
+        //PlayerPrefs.GetFloat("endofTime");
+        //scoreing.scoreCount.text = scoreing.endofTime.ToString();
+    }
+    public void NextLevel(int currentscene) //When Bird reaches the end and goes to next level
     {
-        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive); //Loads next scene/level in game
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        Time.timeScale = 1;
+    }
+    public void Mainmenu(int currentscene) // Goes back to main menu
+    {
+        //SceneManager.LoadScene(currentscene);
+        SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
     }
-
-    public void NextLevel(int scene)
+    public void ReturnToMainAfterEndGame(int currentscene) // EngGame method that puts you at the end of game
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 4); //back to scene 1 the main menu
+        SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex - 4);
+        Time.timeScale = 1;
     }
 
-    public void Mainmenu(int scene)
-    {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex - 1);
-    }
-    public void Quitgame()
+    //public void NextScene(int currentscene)
+    //{
+    //    SceneManager.LoadSceneAsync(currentscene, LoadSceneMode.Additive);
+    //    Scene sceneToUnload = default;
+
+    //    for (int i = 0; i < SceneManager.sceneCount; i++)
+    //    {
+    //        if (SceneManager.GetSceneAt(i).buildIndex != 6)
+    //        {
+    //            sceneToUnload = SceneManager.GetSceneAt(i);
+    //            break;
+    //        }
+    //    }
+
+    //    SceneManager.UnloadSceneAsync(sceneToUnload);
+
+    //    Time.timeScale = 1;
+    //}
+
+    public void Quitgame() //quit game function
     {
         Debug.Log("quit");
         Application.Quit();
     }
-
 }
 
 
